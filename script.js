@@ -126,10 +126,17 @@ function calcularSalario() {
     }
 
     let vencimentoOriginal = 0;
+    let nivelSuperior80 = 0;
 
     if (cargoSelect.value && classeSelect.value && referenciaSelect.value) {
-        vencimentoOriginal = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]);
+        vencimentoOriginal = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]["VencimentoBase"]);
+        nivelSuperior80 = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]["Nivel_Superior_80"]);
     }
+
+    // Atualizar VencimentoBase e GratNivelSuperior
+    vencimentoBase = vencimentoOriginal;
+    document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
+    document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(nivelSuperior80);
 
     // Aplicar os reajustes sequencialmente
     let vencimentoReajustado = vencimentoOriginal;
@@ -143,6 +150,7 @@ function calcularSalario() {
 
     vencimentoBase = vencimentoReajustado;
 
+    // Atualizar VencimentoBase após reajustes
     document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
 
     // Cálculo do adicional de cursos
@@ -182,14 +190,14 @@ function calcularSalario() {
     }
 
     const abonoBase = 0.70 * vencimentoBase;
-    const abonoProdColetiva = abonoBase * (apcPercent / 100);
-    document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdColetiva);
+    const abonoProdutivaColetiva = abonoBase * (apcPercent / 100);
+    document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutivaColetiva);
 
     const basePrevidencia = vencimentoBase + adicTempoServico + adicQualificacaoTitulos;
     const finanpreve = 0.14 * basePrevidencia;
 
     // Cálculo da Base de Cálculo do IRPF
-    let baseIR = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdColetiva - finanpreve;
+    let baseIR = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutivaColetiva - finanpreve;
 
     // Cálculo do Imposto de Renda utilizando a tabela progressiva de 2024
     let { impostoDeRenda, aliquota } = calcularImpostoDeRenda(baseIR);
@@ -200,7 +208,7 @@ function calcularSalario() {
     const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
     const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
 
-    const remuneracao = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdColetiva;
+    const remuneracao = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutivaColetiva;
     const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto;
     const liquidoAReceber = remuneracao - descontos;
 
@@ -210,7 +218,7 @@ function calcularSalario() {
     atualizarTabela([
         { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
         { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
-        // Removemos a rubrica P331 daqui, pois agora está na tabela principal
+        // Removido P002 para evitar duplicação
         { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
         { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed },
@@ -227,8 +235,8 @@ function calcularSalario() {
 
 function atualizarTabela(valores) {
     const salaryTable = document.getElementById('salaryTable').getElementsByTagName('tbody')[0];
-    while (salaryTable.rows.length > 3) { // Ajustado para não remover as três primeiras linhas
-        salaryTable.deleteRow(3);
+    while (salaryTable.rows.length > 4) { // Mantém as quatro primeiras linhas: P001, P002, P031, P331
+        salaryTable.deleteRow(4);
     }
     valores.forEach(item => {
         const row = salaryTable.insertRow();

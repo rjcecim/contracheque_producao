@@ -1,226 +1,646 @@
 {
   "Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo": {
     "A": {
-      "1": 9792.50,
-      "2": 10086.28,
-      "3": 10388.90,
-      "4": 10700.52
+      "1": {
+        "VencimentoBase": 5440.28,
+        "Nivel_Superior_80": 4352.22
+      },
+      "2": {
+        "VencimentoBase": 5603.49,
+        "Nivel_Superior_80": 4482.79
+      },
+      "3": {
+        "VencimentoBase": 5771.61,
+        "Nivel_Superior_80": 4617.29
+      },
+      "4": {
+        "VencimentoBase": 5944.73,
+        "Nivel_Superior_80": 4755.79
+      }
     },
     "B": {
-      "1": 11235.55,
-      "2": 11572.60,
-      "3": 11919.80,
-      "4": 12277.37
+      "1": {
+        "VencimentoBase": 6241.97,
+        "Nivel_Superior_80": 4993.58
+      },
+      "2": {
+        "VencimentoBase": 6429.22,
+        "Nivel_Superior_80": 5143.38
+      },
+      "3": {
+        "VencimentoBase": 6622.11,
+        "Nivel_Superior_80": 5297.69
+      },
+      "4": {
+        "VencimentoBase": 6820.76,
+        "Nivel_Superior_80": 5456.61
+      }
     },
     "C": {
-      "1": 12891.22,
-      "2": 13277.93,
-      "3": 13676.31,
-      "4": 14086.58
+      "1": {
+        "VencimentoBase": 7161.79,
+        "Nivel_Superior_80": 5729.43
+      },
+      "2": {
+        "VencimentoBase": 7376.63,
+        "Nivel_Superior_80": 5901.30
+      },
+      "3": {
+        "VencimentoBase": 7597.95,
+        "Nivel_Superior_80": 6078.36
+      },
+      "4": {
+        "VencimentoBase": 7825.88,
+        "Nivel_Superior_80": 6260.70
+      }
     },
     "D": {
-      "1": 14790.91,
-      "2": 15234.67,
-      "3": 15691.66,
-      "4": 16162.47
+      "1": {
+        "VencimentoBase": 8217.17,
+        "Nivel_Superior_80": 6573.74
+      },
+      "2": {
+        "VencimentoBase": 8463.71,
+        "Nivel_Superior_80": 6770.96
+      },
+      "3": {
+        "VencimentoBase": 8717.59,
+        "Nivel_Superior_80": 6974.07
+      },
+      "4": {
+        "VencimentoBase": 8979.15,
+        "Nivel_Superior_80": 7183.32
+      }
     },
     "E": {
-      "1": 17778.73,
-      "2": 18845.46,
-      "3": 19976.19,
-      "4": 21174.75
+      "1": {
+        "VencimentoBase": 9877.07,
+        "Nivel_Superior_80": 7901.66
+      },
+      "2": {
+        "VencimentoBase": 10469.70,
+        "Nivel_Superior_80": 8375.76
+      },
+      "3": {
+        "VencimentoBase": 11097.88,
+        "Nivel_Superior_80": 8878.31
+      },
+      "4": {
+        "VencimentoBase": 11763.75,
+        "Nivel_Superior_80": 9411.00
+      }
     }
   },
   "Analista_Auxiliar_de_Controle_Externo": {
     "A": {
-      "1": 8882.24,
-      "2": 9148.70,
-      "3": 9423.14,
-      "4": 9705.81
+      "1": {
+        "VencimentoBase": 4934.58,
+        "Nivel_Superior_80": 3947.66
+      },
+      "2": {
+        "VencimentoBase": 5082.61,
+        "Nivel_Superior_80": 4066.09
+      },
+      "3": {
+        "VencimentoBase": 5235.08,
+        "Nivel_Superior_80": 4188.06
+      },
+      "4": {
+        "VencimentoBase": 5392.12,
+        "Nivel_Superior_80": 4313.69
+      }
     },
     "B": {
-      "1": 10191.12,
-      "2": 10496.86,
-      "3": 10811.77,
-      "4": 11136.15
+      "1": {
+        "VencimentoBase": 5661.73,
+        "Nivel_Superior_80": 4529.39
+      },
+      "2": {
+        "VencimentoBase": 5831.59,
+        "Nivel_Superior_80": 4665.27
+      },
+      "3": {
+        "VencimentoBase": 6006.54,
+        "Nivel_Superior_80": 4805.23
+      },
+      "4": {
+        "VencimentoBase": 6186.75,
+        "Nivel_Superior_80": 4949.40
+      }
     },
     "C": {
-      "1": 11692.98,
-      "2": 12043.67,
-      "3": 12405.04,
-      "4": 12777.21
+      "1": {
+        "VencimentoBase": 6496.10,
+        "Nivel_Superior_80": 5196.88
+      },
+      "2": {
+        "VencimentoBase": 6690.93,
+        "Nivel_Superior_80": 5352.74
+      },
+      "3": {
+        "VencimentoBase": 6891.69,
+        "Nivel_Superior_80": 5513.35
+      },
+      "4": {
+        "VencimentoBase": 7098.45,
+        "Nivel_Superior_80": 5678.76
+      }
     },
     "D": {
-      "1": 13416.03,
-      "2": 13818.56,
-      "3": 14233.14,
-      "4": 14660.07
+      "1": {
+        "VencimentoBase": 7453.35,
+        "Nivel_Superior_80": 5962.68
+      },
+      "2": {
+        "VencimentoBase": 7676.98,
+        "Nivel_Superior_80": 6141.58
+      },
+      "3": {
+        "VencimentoBase": 7907.30,
+        "Nivel_Superior_80": 6325.84
+      },
+      "4": {
+        "VencimentoBase": 8144.48,
+        "Nivel_Superior_80": 6515.59
+      }
     },
     "E": {
-      "1": 16126.06,
-      "2": 17093.63,
-      "3": 18119.24,
-      "4": 19206.38
+      "1": {
+        "VencimentoBase": 8958.92,
+        "Nivel_Superior_80": 7167.14
+      },
+      "2": {
+        "VencimentoBase": 9496.46,
+        "Nivel_Superior_80": 7597.17
+      },
+      "3": {
+        "VencimentoBase": 10066.24,
+        "Nivel_Superior_80": 8053.00
+      },
+      "4": {
+        "VencimentoBase": 10670.21,
+        "Nivel_Superior_80": 8536.17
+      }
     }
   },
   "Auxiliar_Tecnico_de_Controle_Externo_Administrativo_Informatica": {
     "A": {
-      "1": 4934.58,
-      "2": 5082.61,
-      "3": 5235.08,
-      "4": 5392.12
+      "1": {
+        "VencimentoBase": 4934.58,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 5082.61,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 5235.08,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 5392.12,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "B": {
-      "1": 5661.73,
-      "2": 5831.59,
-      "3": 6006.54,
-      "4": 6186.75
+      "1": {
+        "VencimentoBase": 5661.73,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 5831.59,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 6006.54,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 6186.75,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "C": {
-      "1": 6496.10,
-      "2": 6690.93,
-      "3": 6891.69,
-      "4": 7098.45
+      "1": {
+        "VencimentoBase": 6496.10,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 6690.93,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 6891.69,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 7098.45,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "D": {
-      "1": 7453.35,
-      "2": 7676.98,
-      "3": 7907.30,
-      "4": 8144.48
+      "1": {
+        "VencimentoBase": 7453.35,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 7676.98,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 7907.30,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 8144.48,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "E": {
-      "1": 8958.92,
-      "2": 9496.46,
-      "3": 10066.24,
-      "4": 10670.21
+      "1": {
+        "VencimentoBase": 8958.92,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 9496.46,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 10066.24,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 10670.21,
+        "Nivel_Superior_80": 0.00
+      }
     }
   },
   "Motorista": {
     "A": {
-      "1": 2648.48,
-      "2": 2727.93,
-      "3": 2809.78,
-      "4": 2894.05
+      "1": {
+        "VencimentoBase": 2648.48,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2727.93,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2809.78,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2894.05,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "B": {
-      "1": 3038.76,
-      "2": 3129.92,
-      "3": 3223.82,
-      "4": 3320.55
+      "1": {
+        "VencimentoBase": 3038.76,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3129.92,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3223.82,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3320.55,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "C": {
-      "1": 3486.58,
-      "2": 3591.16,
-      "3": 3698.90,
-      "4": 3809.90
+      "1": {
+        "VencimentoBase": 3486.58,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3591.16,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3698.90,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3809.90,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "D": {
-      "1": 4000.38,
-      "2": 4120.40,
-      "3": 4243.98,
-      "4": 4371.33
+      "1": {
+        "VencimentoBase": 4000.38,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 4120.40,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 4243.98,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 4371.33,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "E": {
-      "1": 4808.46,
-      "2": 5096.97,
-      "3": 5402.79,
-      "4": 5726.96
+      "1": {
+        "VencimentoBase": 4808.46,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 5096.97,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 5402.79,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 5726.96,
+        "Nivel_Superior_80": 0.00
+      }
     }
   },
   "Agente_Auxiliar_de_Servicos_Administrativos": {
     "A": {
-      "1": 2456.04,
-      "2": 2529.75,
-      "3": 2605.63,
-      "4": 2683.79
+      "1": {
+        "VencimentoBase": 2456.04,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2529.75,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2605.63,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2683.79,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "B": {
-      "1": 2817.99,
-      "2": 2902.51,
-      "3": 2989.61,
-      "4": 3079.30
+      "1": {
+        "VencimentoBase": 2817.99,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2902.51,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2989.61,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3079.30,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "C": {
-      "1": 3233.26,
-      "2": 3330.27,
-      "3": 3430.17,
-      "4": 3533.05
+      "1": {
+        "VencimentoBase": 3233.26,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3330.27,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3430.17,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3533.05,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "D": {
-      "1": 3709.72,
-      "2": 3820.99,
-      "3": 3935.61,
-      "4": 4053.69
+      "1": {
+        "VencimentoBase": 3709.72,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3820.99,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3935.61,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 4053.69,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "E": {
-      "1": 4459.06,
-      "2": 4726.61,
-      "3": 5010.21,
-      "4": 5310.82
+      "1": {
+        "VencimentoBase": 4459.06,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 4726.61,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 5010.21,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 5310.82,
+        "Nivel_Superior_80": 0.00
+      }
     }
   },
   "Agente_Auxiliar_de_Servicos_Gerais": {
     "A": {
-      "1": 2053.43,
-      "2": 2115.03,
-      "3": 2178.49,
-      "4": 2243.85
+      "1": {
+        "VencimentoBase": 2053.43,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2115.03,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2178.49,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2243.85,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "B": {
-      "1": 2356.05,
-      "2": 2426.71,
-      "3": 2499.53,
-      "4": 2574.53
+      "1": {
+        "VencimentoBase": 2356.05,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2426.71,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2499.53,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2574.53,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "C": {
-      "1": 2703.23,
-      "2": 2784.34,
-      "3": 2867.87,
-      "4": 2953.89
+      "1": {
+        "VencimentoBase": 2703.23,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2784.34,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2867.87,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2953.89,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "D": {
-      "1": 3101.58,
-      "2": 3194.63,
-      "3": 3290.48,
-      "4": 3389.20
+      "1": {
+        "VencimentoBase": 3101.58,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3194.63,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3290.48,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3389.20,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "E": {
-      "1": 3728.12,
-      "2": 3951.81,
-      "3": 4188.93,
-      "4": 4440.26
+      "1": {
+        "VencimentoBase": 3728.12,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3951.81,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 4188.93,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 4440.26,
+        "Nivel_Superior_80": 0.00
+      }
     }
   },
   "Agente_de_Vigilancia_e_Zeladoria": {
     "A": {
-      "1": 2388.83,
-      "2": 2460.51,
-      "3": 2534.30,
-      "4": 2610.32
+      "1": {
+        "VencimentoBase": 2388.83,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2460.51,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2534.30,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2610.32,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "B": {
-      "1": 2740.87,
-      "2": 2823.10,
-      "3": 2907.77,
-      "4": 2994.98
+      "1": {
+        "VencimentoBase": 2740.87,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 2823.10,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 2907.77,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 2994.98,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "C": {
-      "1": 3144.75,
-      "2": 3239.07,
-      "3": 3336.27,
-      "4": 3436.32
+      "1": {
+        "VencimentoBase": 3144.75,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3239.07,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3336.27,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3436.32,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "D": {
-      "1": 3608.13,
-      "2": 3716.40,
-      "3": 3827.87,
-      "4": 3942.71
+      "1": {
+        "VencimentoBase": 3608.13,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 3716.40,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 3827.87,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 3942.71,
+        "Nivel_Superior_80": 0.00
+      }
     },
     "E": {
-      "1": 4336.98,
-      "2": 4597.21,
-      "3": 4873.04,
-      "4": 5165.41
+      "1": {
+        "VencimentoBase": 4336.98,
+        "Nivel_Superior_80": 0.00
+      },
+      "2": {
+        "VencimentoBase": 4597.21,
+        "Nivel_Superior_80": 0.00
+      },
+      "3": {
+        "VencimentoBase": 4873.04,
+        "Nivel_Superior_80": 0.00
+      },
+      "4": {
+        "VencimentoBase": 5165.41,
+        "Nivel_Superior_80": 0.00
+      }
     }
   }
 }
