@@ -169,7 +169,13 @@ function calcularSalario() {
     }
     const adicQualificacaoTitulos = percentualTitulo * vencimentoBase;
 
-    const adicTempoServico = adicTempoServicoPercentual * (vencimentoBase + adicQualificacaoTitulos);
+    let gratNivelSuperior = 0;
+    if (cargosElegiveisGratNivelSuperior.includes(cargoSelect.value)) {
+        gratNivelSuperior = 0.80 * vencimentoBase;
+    }
+    document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(gratNivelSuperior);
+
+    const adicTempoServico = adicTempoServicoPercentual * (vencimentoBase + gratNivelSuperior + adicQualificacaoTitulos);
     document.getElementById('valorP031').textContent = formatarComoMoeda(adicTempoServico);
 
     let apcPercent = parseFloat(apcPercentInput.value);
@@ -184,12 +190,6 @@ function calcularSalario() {
     const abonoBase = 0.70 * vencimentoBase;
     const abonoProdutiva = abonoBase * (apcPercent / 100);
     document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutiva);
-
-    let gratNivelSuperior = 0;
-    if (cargosElegiveisGratNivelSuperior.includes(cargoSelect.value)) {
-        gratNivelSuperior = 0.80 * vencimentoBase;
-    }
-    document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(gratNivelSuperior);
 
     const basePrevidencia = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos;
     const finanpreve = 0.14 * basePrevidencia;
