@@ -20,6 +20,12 @@ const cargoDisplayNames = {
     "Agente_de_Vigilancia_e_Zeladoria": "Agente de Vigilância e Zeladoria"
 };
 
+// Lista de cargos elegíveis para GRAT. NÍVEL SUPERIOR
+const cargosElegiveisGratNivelSuperior = [
+    "Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo",
+    "Analista_Auxiliar_de_Controle_Externo"
+];
+
 // Variável para controlar se o modal já foi exibido
 let modalShown = false;
 // Variável para armazenar a referência ao modal
@@ -47,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('titulos').addEventListener('change', calcularSalario);
     document.getElementById('cursos').addEventListener('change', calcularSalario);
     document.getElementById('apcPercent').addEventListener('input', calcularSalario);
+    document.getElementById('funcaoGratificada').addEventListener('change', calcularSalario);
+    document.getElementById('ferias').addEventListener('change', calcularSalario);
+    document.getElementById('abonoPermanencia').addEventListener('change', calcularSalario);
+    document.getElementById('numeroDependentes').addEventListener('input', calcularSalario);
 
     // Evento para adicionar novos campos de reajuste
     document.getElementById('addReajusteBtn').addEventListener('click', adicionarReajuste);
@@ -107,6 +117,10 @@ function calcularSalario() {
     const titulosSelect = document.getElementById('titulos');
     const cursosSelect = document.getElementById('cursos');
     const apcPercentInput = document.getElementById('apcPercent');
+    const funcaoGratificadaSelect = document.getElementById('funcaoGratificada');
+    const feriasSelect = document.getElementById('ferias');
+    const abonoPermanenciaSelect = document.getElementById('abonoPermanencia');
+    const numeroDependentesInput = document.getElementById('numeroDependentes');
 
     let adicTempoServicoPercentual = parseFloat(adicTempoServicoInput.value) / 100;
 
@@ -126,17 +140,10 @@ function calcularSalario() {
     }
 
     let vencimentoOriginal = 0;
-    let nivelSuperior80 = 0;
 
     if (cargoSelect.value && classeSelect.value && referenciaSelect.value) {
-        vencimentoOriginal = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]["VencimentoBase"]);
-        nivelSuperior80 = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]["Nivel_Superior_80"]);
+        vencimentoOriginal = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]);
     }
-
-    // Atualizar VencimentoBase e GratNivelSuperior
-    vencimentoBase = vencimentoOriginal;
-    document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
-    document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(nivelSuperior80);
 
     // Aplicar os reajustes sequencialmente
     let vencimentoReajustado = vencimentoOriginal;
@@ -150,7 +157,6 @@ function calcularSalario() {
 
     vencimentoBase = vencimentoReajustado;
 
-    // Atualizar VencimentoBase após reajustes
     document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
 
     // Cálculo do adicional de cursos
@@ -190,14 +196,21 @@ function calcularSalario() {
     }
 
     const abonoBase = 0.70 * vencimentoBase;
-    const abonoProdutivaColetiva = abonoBase * (apcPercent / 100);
-    document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutivaColetiva);
+    const abonoProdutiva = abonoBase * (apcPercent / 100);
+    document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutiva);
+
+    // Cálculo da GRAT. NÍVEL SUPERIOR
+    let gratNivelSuperior = 0;
+    if (cargosElegiveisGratNivelSuperior.includes(cargoSelect.value)) {
+        gratNivelSuperior = 0.80 * vencimentoBase;
+    }
+    document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(gratNivelSuperior);
 
     const basePrevidencia = vencimentoBase + adicTempoServico + adicQualificacaoTitulos;
     const finanpreve = 0.14 * basePrevidencia;
 
     // Cálculo da Base de Cálculo do IRPF
-    let baseIR = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutivaColetiva - finanpreve;
+    let baseIR = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva + gratNivelSuperior - finanpreve;
 
     // Cálculo do Imposto de Renda utilizando a tabela progressiva de 2024
     let { impostoDeRenda, aliquota } = calcularImpostoDeRenda(baseIR);
@@ -208,7 +221,10 @@ function calcularSalario() {
     const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
     const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
 
-    const remuneracao = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutivaColetiva;
+    // Cálculo adicional baseado em outros campos
+    // Você pode implementar lógicas adicionais aqui para Função Gratificada, Férias, Abono Permanência e Número de Dependentes
+
+    const remuneracao = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva + gratNivelSuperior;
     const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto;
     const liquidoAReceber = remuneracao - descontos;
 
@@ -218,7 +234,8 @@ function calcularSalario() {
     atualizarTabela([
         { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
         { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
-        // Removido P002 para evitar duplicação
+        // { rubrica: 'P002', descricao: 'GRAT. NÍVEL SUPERIOR', valor: gratNivelSuperior }, // REMOVIDO PARA EVITAR DUPLICAÇÃO
+        { rubrica: 'P331', descricao: 'ABONO PRODUTIVIDADE COLETIVA', valor: abonoProdutiva },
         { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
         { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed },
@@ -235,7 +252,8 @@ function calcularSalario() {
 
 function atualizarTabela(valores) {
     const salaryTable = document.getElementById('salaryTable').getElementsByTagName('tbody')[0];
-    while (salaryTable.rows.length > 4) { // Mantém as quatro primeiras linhas: P001, P002, P031, P331
+    // Mantém as quatro primeiras linhas fixas: P001, P002, P031, P331
+    while (salaryTable.rows.length > 4) {
         salaryTable.deleteRow(4);
     }
     valores.forEach(item => {
