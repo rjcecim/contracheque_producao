@@ -1,15 +1,12 @@
 // script.js
 
-// Função para formatar valores monetários
 function formatarComoMoeda(valor) {
     return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// Variáveis globais
 let vencimentosData = {};
 let vencimentoBase = 0;
 
-// Mapear os cargos com os textos de exibição
 const cargoDisplayNames = {
     "Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo": "Assessor Técnico de Controle Externo / Auditor de Controle Externo",
     "Analista_Auxiliar_de_Controle_Externo": "Analista Auxiliar de Controle Externo",
@@ -20,20 +17,15 @@ const cargoDisplayNames = {
     "Agente_de_Vigilancia_e_Zeladoria": "Agente de Vigilância e Zeladoria"
 };
 
-// Lista de cargos elegíveis para GRAT. NÍVEL SUPERIOR
 const cargosElegiveisGratNivelSuperior = [
     "Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo",
     "Analista_Auxiliar_de_Controle_Externo"
 ];
 
-// Variável para controlar se o modal já foi exibido
 let modalShown = false;
-// Variável para armazenar a referência ao modal
 let limitModal;
 
-// Carregar dados do arquivo vencimentos.json
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializa o modal
     limitModal = new bootstrap.Modal(document.getElementById('limitModal'));
 
     fetch('vencimentos.json')
@@ -44,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
             calcularSalario();
         });
 
-    // Eventos para recalcular automaticamente
     document.getElementById('adicTempoServico').addEventListener('input', calcularSalario);
     document.getElementById('desconto1').addEventListener('change', calcularSalario);
     document.getElementById('desconto2').addEventListener('change', calcularSalario);
@@ -58,15 +49,18 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('abonoPermanencia').addEventListener('change', calcularSalario);
     document.getElementById('numeroDependentes').addEventListener('input', calcularSalario);
 
-    // Evento para adicionar novos campos de reajuste
     document.getElementById('addReajusteBtn').addEventListener('click', adicionarReajuste);
 
-    // Evento para recalcular salário ao alterar os reajustes
     document.getElementById('reajustesContainer').addEventListener('input', function(event) {
         if (event.target.classList.contains('reajuste-input')) {
             calcularSalario();
         }
     });
+
+    const firstRemoveBtn = document.querySelector('#reajustesContainer .remove-reajuste-btn');
+    if (firstRemoveBtn) {
+        firstRemoveBtn.style.display = 'none';
+    }
 });
 
 function inicializarComboboxes() {
@@ -74,8 +68,7 @@ function inicializarComboboxes() {
     let classeSelect = document.getElementById('classe');
     let referenciaSelect = document.getElementById('referencia');
 
-    // Preenche o combobox de cargos
-    cargoSelect.length = 1; // Mantém o primeiro item "Selecione um cargo"
+    cargoSelect.length = 1;
     for (let cargo in vencimentosData) {
         let displayName = cargoDisplayNames[cargo] || cargo.replace(/_/g, ' ');
         let option = new Option(displayName, cargo);
@@ -84,7 +77,7 @@ function inicializarComboboxes() {
 
     cargoSelect.addEventListener('change', function() {
         classeSelect.disabled = false;
-        classeSelect.length = 1; // Mantém o primeiro item "Selecione a classe"
+        classeSelect.length = 1;
         referenciaSelect.disabled = true;
         referenciaSelect.length = 1;
         let classes = vencimentosData[this.value];
@@ -96,7 +89,7 @@ function inicializarComboboxes() {
 
     classeSelect.addEventListener('change', function() {
         referenciaSelect.disabled = false;
-        referenciaSelect.length = 1; // Mantém o primeiro item "Selecione a referência"
+        referenciaSelect.length = 1;
         let referencias = vencimentosData[cargoSelect.value][this.value];
         for (let referencia in referencias) {
             referenciaSelect.add(new Option(referencia, referencia));
@@ -124,18 +117,15 @@ function calcularSalario() {
 
     let adicTempoServicoPercentual = parseFloat(adicTempoServicoInput.value) / 100;
 
-    // Limitar o valor máximo a 60% e mínimo a 0%
     if (adicTempoServicoPercentual > 0.60) {
         adicTempoServicoPercentual = 0.60;
         adicTempoServicoInput.value = 60;
     }
 
-    // Verifica se o valor atingiu 60% e se o modal já não foi exibido
     if (adicTempoServicoPercentual === 0.60 && !modalShown) {
         modalShown = true;
         limitModal.show();
     } else if (adicTempoServicoPercentual < 0.60) {
-        // Reseta a variável se o valor for menor que 60%
         modalShown = false;
     }
 
@@ -145,7 +135,6 @@ function calcularSalario() {
         vencimentoOriginal = parseFloat(vencimentosData[cargoSelect.value][classeSelect.value][referenciaSelect.value]);
     }
 
-    // Aplicar os reajustes sequencialmente
     let vencimentoReajustado = vencimentoOriginal;
     const reajusteInputs = document.querySelectorAll('.reajuste-input');
     reajusteInputs.forEach(input => {
@@ -159,13 +148,11 @@ function calcularSalario() {
 
     document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
 
-    // Cálculo do adicional de cursos
     let adicQualificacaoCursos = 0;
     if (cursosSelect.value === 'sim') {
         adicQualificacaoCursos = 0.10 * vencimentoBase;
     }
 
-    // Ajuste no cálculo do adicional de títulos conforme a seleção
     let percentualTitulo = 0;
     switch (titulosSelect.value) {
         case 'especializacao':
@@ -185,7 +172,6 @@ function calcularSalario() {
     const adicTempoServico = adicTempoServicoPercentual * (vencimentoBase + adicQualificacaoTitulos);
     document.getElementById('valorP031').textContent = formatarComoMoeda(adicTempoServico);
 
-    // Cálculo do Abono Produtividade Coletiva
     let apcPercent = parseFloat(apcPercentInput.value);
     if (isNaN(apcPercent) || apcPercent < 0) {
         apcPercent = 0;
@@ -199,43 +185,37 @@ function calcularSalario() {
     const abonoProdutiva = abonoBase * (apcPercent / 100);
     document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutiva);
 
-    // Cálculo da GRAT. NÍVEL SUPERIOR
     let gratNivelSuperior = 0;
     if (cargosElegiveisGratNivelSuperior.includes(cargoSelect.value)) {
         gratNivelSuperior = 0.80 * vencimentoBase;
     }
     document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(gratNivelSuperior);
 
-    const basePrevidencia = vencimentoBase + adicTempoServico + adicQualificacaoTitulos;
+    const basePrevidencia = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos;
     const finanpreve = 0.14 * basePrevidencia;
 
-    // Cálculo da Base de Cálculo do IRPF
-    let baseIR = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva + gratNivelSuperior - finanpreve;
+    let baseIR = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva - finanpreve;
 
-    // Cálculo do Imposto de Renda utilizando a tabela progressiva de 2024
+    const numeroDependentes = parseInt(numeroDependentesInput.value);
+    const deducaoDependentes = 189.59 * numeroDependentes;
+    baseIR -= deducaoDependentes;
+
     let { impostoDeRenda, aliquota } = calcularImpostoDeRenda(baseIR);
 
-    // Atualizar cálculo dos descontos com base nos comboboxes
-    const tceUnimed = document.getElementById('desconto1').value === 'sim' ? 0.045 * (vencimentoBase + adicTempoServico + adicQualificacaoTitulos) : 0;
+    const tceUnimed = document.getElementById('desconto1').value === 'sim' ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0;
     const sindicontas = document.getElementById('desconto2').value === 'sim' ? 40.00 : 0;
     const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
     const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
 
-    // Cálculo adicional baseado em outros campos
-    // Você pode implementar lógicas adicionais aqui para Função Gratificada, Férias, Abono Permanência e Número de Dependentes
-
-    const remuneracao = vencimentoBase + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva + gratNivelSuperior;
+    const remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva;
     const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto;
     const liquidoAReceber = remuneracao - descontos;
 
-    // Formatar a alíquota em percentual para exibir na descrição
     let aliquotaPercentual = (aliquota * 100).toFixed(1).replace('.', ',');
 
     atualizarTabela([
         { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
         { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
-        // { rubrica: 'P002', descricao: 'GRAT. NÍVEL SUPERIOR', valor: gratNivelSuperior }, // REMOVIDO PARA EVITAR DUPLICAÇÃO
-        { rubrica: 'P331', descricao: 'ABONO PRODUTIVIDADE COLETIVA', valor: abonoProdutiva },
         { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
         { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed },
@@ -252,7 +232,6 @@ function calcularSalario() {
 
 function atualizarTabela(valores) {
     const salaryTable = document.getElementById('salaryTable').getElementsByTagName('tbody')[0];
-    // Mantém as quatro primeiras linhas fixas: P001, P002, P031, P331
     while (salaryTable.rows.length > 4) {
         salaryTable.deleteRow(4);
     }
@@ -267,7 +246,6 @@ function atualizarTabela(valores) {
     });
 }
 
-// Função para calcular o Imposto de Renda conforme a tabela progressiva de 2024
 function calcularImpostoDeRenda(baseIR) {
     let aliquota, deducao;
 
@@ -316,13 +294,11 @@ function adicionarReajuste() {
     spanPercent.classList.add('input-group-text');
     spanPercent.textContent = '%';
 
-    // Botão para remover o reajuste
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('btn', 'btn-outline-secondary', 'remove-reajuste-btn');
     removeBtn.type = 'button';
     removeBtn.innerHTML = '<img src="subtraction.svg" alt="Remover" width="20" height="20">';
 
-    // Evento para remover o reajuste
     removeBtn.addEventListener('click', function() {
         reajustesContainer.removeChild(div);
         recalcularNumeroReajustes();
@@ -337,14 +313,12 @@ function adicionarReajuste() {
     reajustesContainer.appendChild(div);
 }
 
-// Função para recalcular os números ordinais dos reajustes após a remoção
 function recalcularNumeroReajustes() {
     const reajusteGroups = document.querySelectorAll('#reajustesContainer .input-group');
     reajusteGroups.forEach((group, index) => {
         const labelSpan = group.querySelector('.input-group-text');
         labelSpan.textContent = `Qual o valor do ${index + 1}º reajuste?`;
 
-        // Mostrar o botão de remover apenas do 2º reajuste em diante
         const removeBtn = group.querySelector('.remove-reajuste-btn');
         if (removeBtn) {
             if (index === 0) {
@@ -355,11 +329,3 @@ function recalcularNumeroReajustes() {
         }
     });
 }
-
-// Ajuste inicial para esconder o botão de remover do primeiro reajuste
-document.addEventListener('DOMContentLoaded', function() {
-    const firstRemoveBtn = document.querySelector('#reajustesContainer .remove-reajuste-btn');
-    if (firstRemoveBtn) {
-        firstRemoveBtn.style.display = 'none';
-    }
-});
