@@ -207,13 +207,25 @@ function calcularSalario() {
     const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
     const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
 
-    const remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva;
+    let remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva;
+    let ferias = 0;
+
+    if (feriasSelect.value === 'sim') {
+        ferias = remuneracao / 3;
+        remuneracao += ferias;
+    }
+
     const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto;
     const liquidoAReceber = remuneracao - descontos;
 
     let aliquotaPercentual = (aliquota * 100).toFixed(1).replace('.', ',');
 
-    atualizarTabela([
+    let valores = [
+        { rubrica: 'P001', descricao: 'VENCIMENTO', valor: vencimentoBase },
+        { rubrica: 'P002', descricao: 'GRAT. NÍVEL SUPERIOR', valor: gratNivelSuperior },
+        { rubrica: 'P031', descricao: 'ADIC. TEMPO SERVIÇO', valor: adicTempoServico },
+        { rubrica: 'P331', descricao: 'ABONO PRODUTIVIDADE COLETIVA', valor: abonoProdutiva },
+        { rubrica: 'F001', descricao: 'Férias (1/3)', valor: ferias },
         { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
         { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
         { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
@@ -227,7 +239,9 @@ function calcularSalario() {
         { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: remuneracao },
         { rubrica: 'R104', descricao: 'TOTAL DESCONTOS', valor: descontos },
         { rubrica: 'R105', descricao: 'LÍQUIDO A RECEBER', valor: liquidoAReceber },
-    ]);
+    ];
+
+    atualizarTabela(valores);
 }
 
 function atualizarTabela(valores) {
