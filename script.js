@@ -207,29 +207,37 @@ function calcularSalario() {
     const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
     const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
 
-    let remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva;
-    let ferias = 0;
+    // Cálculo de P025 - 1/3 Férias (30 dias)
+    const p025 = (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva) / 3;
 
-    if (feriasSelect.value === 'sim') {
-        ferias = remuneracao / 3;
-        remuneracao += ferias;
-    }
+    // Cálculo de P055 - IRRF 1/3 Férias (30 dias)
+    let baseIR_P055 = p025 - (189.59 * numeroDependentes); // Não considerar FINANPREV
+    let { impostoDeRenda: impostoP055, aliquota: aliquotaP055 } = calcularImpostoDeRenda(baseIR_P055);
 
-    const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto;
+    const p055 = impostoP055 > 0 ? impostoP055 : 0;
+
+    // Atualização dos valores no HTML
+    // Adicionando P025 na tabela
+    const p025Formatted = formatarComoMoeda(p025);
+
+    // Atualizando a base de IR para o D031
+    // Mantendo o cálculo original para D031
+    // Você pode ajustar conforme necessário
+
+    const remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva + p025;
+    const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto + p055;
     const liquidoAReceber = remuneracao - descontos;
 
     let aliquotaPercentual = (aliquota * 100).toFixed(1).replace('.', ',');
+    let aliquotaP055Percentual = (aliquotaP055 * 100).toFixed(1).replace('.', ',');
 
-    let valores = [
-        { rubrica: 'P001', descricao: 'VENCIMENTO', valor: vencimentoBase },
-        { rubrica: 'P002', descricao: 'GRAT. NÍVEL SUPERIOR', valor: gratNivelSuperior },
-        { rubrica: 'P031', descricao: 'ADIC. TEMPO SERVIÇO', valor: adicTempoServico },
-        { rubrica: 'P331', descricao: 'ABONO PRODUTIVIDADE COLETIVA', valor: abonoProdutiva },
-        { rubrica: 'F001', descricao: 'Férias (1/3)', valor: ferias },
+    atualizarTabela([
         { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
         { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
+        { rubrica: 'P025', descricao: '1/3 FÉRIAS (30 DIAS)', valor: p025 },
         { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
+        { rubrica: 'P055', descricao: `IRRF- 1/3 FÉRIAS (30 DIAS) (${aliquotaP055Percentual}%)`, valor: p055 },
         { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed },
         { rubrica: 'D303', descricao: 'SINDICONTAS-PA CONTRIBUIÇÃO', valor: sindicontas },
         { rubrica: 'D019', descricao: 'ASTCEMP-MENSALIDADE', valor: astcempMensalidade },
@@ -239,13 +247,12 @@ function calcularSalario() {
         { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: remuneracao },
         { rubrica: 'R104', descricao: 'TOTAL DESCONTOS', valor: descontos },
         { rubrica: 'R105', descricao: 'LÍQUIDO A RECEBER', valor: liquidoAReceber },
-    ];
-
-    atualizarTabela(valores);
+    ]);
 }
 
 function atualizarTabela(valores) {
     const salaryTable = document.getElementById('salaryTable').getElementsByTagName('tbody')[0];
+    // Remove todas as linhas após as linhas iniciais (assumindo que as primeiras 4 são fixas)
     while (salaryTable.rows.length > 4) {
         salaryTable.deleteRow(4);
     }
