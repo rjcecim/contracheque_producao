@@ -244,6 +244,14 @@ function calcularSalario() {
         );
     }
 
+    valores.sort((a, b) => {
+        if (a.rubrica.startsWith('P') && !b.rubrica.startsWith('P')) return -1;
+        if (b.rubrica.startsWith('P') && !a.rubrica.startsWith('P')) return 1;
+        if (a.rubrica.startsWith('D') && !b.rubrica.startsWith('D')) return -1;
+        if (b.rubrica.startsWith('D') && !a.rubrica.startsWith('D')) return 1;
+        return 0;
+    });
+
     atualizarTabela(valores);
 }
 
