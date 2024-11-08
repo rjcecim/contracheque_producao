@@ -60,7 +60,7 @@ h1 {
     }
 }
 
-.add-reajuste-btn img,
-.remove-reajuste-btn img {
+.add-reajuste-btn i,
+.remove-reajuste-btn i {
     pointer-events: none;
 }

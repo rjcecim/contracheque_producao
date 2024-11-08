@@ -175,10 +175,10 @@ function calcularSalario() {
     }
     document.getElementById('gratNivelSuperior').textContent = formatarComoMoeda(gratNivelSuperior);
 
-    const adicTempoServico = adicTempoServicoPercentual * (vencimentoBase + gratNivelSuperior + adicQualificacaoTitulos);
+    let adicTempoServico = adicTempoServicoPercentual * (vencimentoBase + gratNivelSuperior + adicQualificacaoTitulos);
     document.getElementById('valorP031').textContent = formatarComoMoeda(adicTempoServico);
 
-    let apcPercent = parseFloat(apcPercentInput.value);
+    let apcPercent = parseFloat(apcPercentInput.value.replace(',', '.'));
     if (isNaN(apcPercent) || apcPercent < 0) {
         apcPercent = 0;
         apcPercentInput.value = 0;
@@ -190,6 +190,12 @@ function calcularSalario() {
     const abonoBase = 0.70 * vencimentoBase;
     const abonoProdutiva = abonoBase * (apcPercent / 100);
     document.getElementById('valorP331').textContent = formatarComoMoeda(abonoProdutiva);
+
+    let P307 = 0;
+    if (funcaoGratificadaSelect.value === 'gerente' || funcaoGratificadaSelect.value === 'coordenador') {
+        const referenciaP307 = vencimentosData["Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo"]["A"]["1"];
+        P307 = funcaoGratificadaSelect.value === 'gerente' ? 0.90 * referenciaP307 : 1.00 * referenciaP307;
+    }
 
     const basePrevidencia = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos;
     const finanpreve = 0.14 * basePrevidencia;
@@ -241,6 +247,12 @@ function calcularSalario() {
     if (titulosSelect.value !== 'nenhum') {
         valores.push(
             { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos }
+        );
+    }
+
+    if (funcaoGratificadaSelect.value === 'gerente' || funcaoGratificadaSelect.value === 'coordenador') {
+        valores.push(
+            { rubrica: 'P307', descricao: 'REPRESENTAÇÃO - FUNC. GRAT.', valor: P307 }
         );
     }
 
@@ -344,6 +356,7 @@ function adicionarReajuste() {
     input.placeholder = '0,00';
     input.step = '0.01';
     input.min = '0';
+    input.setAttribute('aria-label', `Valor do ${numeroReajustes}º reajuste`);
 
     const spanPercent = document.createElement('span');
     spanPercent.classList.add('input-group-text');
@@ -352,7 +365,7 @@ function adicionarReajuste() {
     const removeBtn = document.createElement('button');
     removeBtn.classList.add('btn', 'btn-outline-secondary', 'remove-reajuste-btn');
     removeBtn.type = 'button';
-    removeBtn.innerHTML = '<img src="subtraction.svg" alt="Remover" width="20" height="20">';
+    removeBtn.innerHTML = '<i class="bi bi-dash"></i>';
 
     removeBtn.addEventListener('click', function() {
         reajustesContainer.removeChild(div);
