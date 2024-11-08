@@ -226,6 +226,7 @@ function calcularSalario() {
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
         { rubrica: 'R101', descricao: 'BASE I.R.', valor: baseIR },
         { rubrica: 'R102', descricao: 'BASE PREVIDÊNCIA', valor: basePrevidencia },
+        { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva },
         { rubrica: 'R104', descricao: 'TOTAL DESCONTOS', valor: finanpreve + impostoDeRenda + (desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0) + (desconto2 ? 40.00 : 0) + (desconto3 ? 77.13 : 0) + (desconto4 ? 33.06 : 0) + d055 },
         { rubrica: 'R105', descricao: 'LÍQUIDO A RECEBER', valor: (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva + p025) - (finanpreve + impostoDeRenda + (desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0) + (desconto2 ? 40.00 : 0) + (desconto3 ? 77.13 : 0) + (desconto4 ? 33.06 : 0) + d055) }
