@@ -3,7 +3,6 @@ function formatarComoMoeda(valor) {
 }
 
 let vencimentosData = {};
-let vencimentoBase = 0;
 
 const cargoDisplayNames = {
     "Assessor_Tecnico_de_Controle_Externo_Auditor_de_Controle_Externo": "Assessor Técnico de Controle Externo / Auditor de Controle Externo",
@@ -146,8 +145,7 @@ function calcularSalario() {
         }
     });
 
-    vencimentoBase = vencimentoReajustado;
-
+    let vencimentoBase = vencimentoReajustado;
     document.getElementById('vencimentoBase').textContent = formatarComoMoeda(vencimentoBase);
 
     let adicQualificacaoCursos = 0;
@@ -204,24 +202,17 @@ function calcularSalario() {
 
     let { impostoDeRenda, aliquota } = calcularImpostoDeRenda(baseIR);
 
-    const tceUnimed = desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0;
-    const sindicontas = desconto2 ? 40.00 : 0;
-    const astcempMensalidade = desconto3 ? 77.13 : 0;
-    const astcempUniodonto = desconto4 ? 33.06 : 0;
-
     let p025 = 0;
     let d055 = 0;
+    let aliquotaD055Percentual = '0,0';
 
     if (feriasSelect.value === 'sim') {
         p025 = (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoCursos + adicQualificacaoTitulos + abonoProdutiva) / 3;
         let baseD055 = p025 - (189.59 * numeroDependentes);
         let { impostoDeRenda: irD055, aliquota: aliD055 } = calcularImpostoDeRenda(baseD055);
         d055 = irD055;
+        aliquotaD055Percentual = (aliD055 * 100).toFixed(1).replace('.', ',');
     }
-
-    const remuneracao = vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva + p025;
-    const descontos = finanpreve + impostoDeRenda + tceUnimed + sindicontas + astcempMensalidade + astcempUniodonto + d055;
-    const liquidoAReceber = remuneracao - descontos;
 
     let aliquotaPercentual = (aliquota * 100).toFixed(1).replace('.', ',');
 
@@ -229,15 +220,15 @@ function calcularSalario() {
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
         { rubrica: 'R101', descricao: 'BASE I.R.', valor: baseIR },
         { rubrica: 'R102', descricao: 'BASE PREVIDÊNCIA', valor: basePrevidencia },
-        { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: remuneracao },
-        { rubrica: 'R104', descricao: 'TOTAL DESCONTOS', valor: descontos },
-        { rubrica: 'R105', descricao: 'LÍQUIDO A RECEBER', valor: liquidoAReceber }
+        { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva },
+        { rubrica: 'R104', descricao: 'TOTAL DESCONTOS', valor: finanpreve + impostoDeRenda + (desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0) + (desconto2 ? 40.00 : 0) + (desconto3 ? 77.13 : 0) + (desconto4 ? 33.06 : 0) + d055 },
+        { rubrica: 'R105', descricao: 'LÍQUIDO A RECEBER', valor: (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos + adicQualificacaoCursos + abonoProdutiva + p025) - (finanpreve + impostoDeRenda + (desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0) + (desconto2 ? 40.00 : 0) + (desconto3 ? 77.13 : 0) + (desconto4 ? 33.06 : 0) + d055) }
     ];
 
     if (feriasSelect.value === 'sim') {
         valores.push(
             { rubrica: 'P025', descricao: '1/3 FÉRIAS (30 DIAS)', valor: p025 },
-            { rubrica: 'D055', descricao: `IRRF - 1/3 FÉRIAS (30 DIAS) (${aliquotaPercentual}%)`, valor: d055 }
+            { rubrica: 'D055', descricao: `IRRF - 1/3 FÉRIAS (30 DIAS) (${aliquotaD055Percentual}%)`, valor: d055 }
         );
     }
 
@@ -255,25 +246,25 @@ function calcularSalario() {
 
     if (desconto1) {
         valores.push(
-            { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed }
+            { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) }
         );
     }
 
     if (desconto2) {
         valores.push(
-            { rubrica: 'D303', descricao: 'SINDICONTAS-PA CONTRIBUIÇÃO', valor: sindicontas }
+            { rubrica: 'D303', descricao: 'SINDICONTAS-PA CONTRIBUIÇÃO', valor: 40.00 }
         );
     }
 
     if (desconto3) {
         valores.push(
-            { rubrica: 'D019', descricao: 'ASTCEMP-MENSALIDADE', valor: astcempMensalidade }
+            { rubrica: 'D019', descricao: 'ASTCEMP-MENSALIDADE', valor: 77.13 }
         );
     }
 
     if (desconto4) {
         valores.push(
-            { rubrica: 'D042', descricao: 'ASTCEMP-UNIODONTO', valor: astcempUniodonto }
+            { rubrica: 'D042', descricao: 'ASTCEMP-UNIODONTO', valor: 33.06 }
         );
     }
 
