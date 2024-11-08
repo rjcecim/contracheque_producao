@@ -112,6 +112,10 @@ function calcularSalario() {
     const feriasSelect = document.getElementById('ferias');
     const abonoPermanenciaSelect = document.getElementById('abonoPermanencia');
     const numeroDependentesInput = document.getElementById('numeroDependentes');
+    const desconto1 = document.getElementById('desconto1').value === 'sim';
+    const desconto2 = document.getElementById('desconto2').value === 'sim';
+    const desconto3 = document.getElementById('desconto3').value === 'sim';
+    const desconto4 = document.getElementById('desconto4').value === 'sim';
 
     let adicTempoServicoPercentual = parseFloat(adicTempoServicoInput.value) / 100;
 
@@ -200,10 +204,10 @@ function calcularSalario() {
 
     let { impostoDeRenda, aliquota } = calcularImpostoDeRenda(baseIR);
 
-    const tceUnimed = document.getElementById('desconto1').value === 'sim' ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0;
-    const sindicontas = document.getElementById('desconto2').value === 'sim' ? 40.00 : 0;
-    const astcempMensalidade = document.getElementById('desconto3').value === 'sim' ? 77.13 : 0;
-    const astcempUniodonto = document.getElementById('desconto4').value === 'sim' ? 33.06 : 0;
+    const tceUnimed = desconto1 ? 0.045 * (vencimentoBase + gratNivelSuperior + adicTempoServico + adicQualificacaoTitulos) : 0;
+    const sindicontas = desconto2 ? 40.00 : 0;
+    const astcempMensalidade = desconto3 ? 77.13 : 0;
+    const astcempUniodonto = desconto4 ? 33.06 : 0;
 
     let p025 = 0;
     let d055 = 0;
@@ -222,14 +226,7 @@ function calcularSalario() {
     let aliquotaPercentual = (aliquota * 100).toFixed(1).replace('.', ',');
 
     let valores = [
-        { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos },
-        { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos },
-        { rubrica: 'D026', descricao: 'FINANPREV - LEI COMP Nº112 12/16 (14%)', valor: finanpreve },
         { rubrica: 'D031', descricao: `IMPOSTO DE RENDA (${aliquotaPercentual}%)`, valor: impostoDeRenda },
-        { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed },
-        { rubrica: 'D303', descricao: 'SINDICONTAS-PA CONTRIBUIÇÃO', valor: sindicontas },
-        { rubrica: 'D019', descricao: 'ASTCEMP-MENSALIDADE', valor: astcempMensalidade },
-        { rubrica: 'D042', descricao: 'ASTCEMP-UNIODONTO', valor: astcempUniodonto },
         { rubrica: 'R101', descricao: 'BASE I.R.', valor: baseIR },
         { rubrica: 'R102', descricao: 'BASE PREVIDÊNCIA', valor: basePrevidencia },
         { rubrica: 'R103', descricao: 'REMUNERAÇÃO', valor: remuneracao },
@@ -240,9 +237,51 @@ function calcularSalario() {
     if (feriasSelect.value === 'sim') {
         valores.push(
             { rubrica: 'P025', descricao: '1/3 FÉRIAS (30 DIAS)', valor: p025 },
-            { rubrica: 'D055', descricao: 'IRRF - 1/3 FÉRIAS (30 DIAS)', valor: d055 }
+            { rubrica: 'D055', descricao: `IRRF - 1/3 FÉRIAS (30 DIAS) (${aliquotaPercentual}%)`, valor: d055 }
         );
     }
+
+    if (cursosSelect.value === 'sim') {
+        valores.push(
+            { rubrica: 'P316', descricao: 'ADICIONAL QUALIFIC./CURSOS', valor: adicQualificacaoCursos }
+        );
+    }
+
+    if (titulosSelect.value !== 'nenhum') {
+        valores.push(
+            { rubrica: 'P317', descricao: 'ADICIONAL QUALIFIC./TÍTULOS', valor: adicQualificacaoTitulos }
+        );
+    }
+
+    if (desconto1) {
+        valores.push(
+            { rubrica: 'D070', descricao: 'TCE-UNIMED BELÉM', valor: tceUnimed }
+        );
+    }
+
+    if (desconto2) {
+        valores.push(
+            { rubrica: 'D303', descricao: 'SINDICONTAS-PA CONTRIBUIÇÃO', valor: sindicontas }
+        );
+    }
+
+    if (desconto3) {
+        valores.push(
+            { rubrica: 'D019', descricao: 'ASTCEMP-MENSALIDADE', valor: astcempMensalidade }
+        );
+    }
+
+    if (desconto4) {
+        valores.push(
+            { rubrica: 'D042', descricao: 'ASTCEMP-UNIODONTO', valor: astcempUniodonto }
+        );
+    }
+
+    valores = valores.filter((item, index, self) =>
+        index === self.findIndex((t) => (
+            t.rubrica === item.rubrica
+        ))
+    );
 
     valores.sort((a, b) => {
         if (a.rubrica.startsWith('P') && !b.rubrica.startsWith('P')) return -1;
